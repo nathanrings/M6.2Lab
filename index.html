@@ -4,12 +4,98 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>Fancy letterheaded paper</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+      function showSelection() {
+        const radios = document.querySelectorAll('input[name="choice"]');
+        let selected = null;
+        for (let r of radios) {
+          if (r.checked) {
+            selected = r.value;
+            break;
+          }
+        }
+        if (selected) {
+          alert("You selected: " + selected);
+        } else {
+          alert("Please select an option first!");
+        }
+      }
+    </script>
   </head>
   <body>
-
     <article>
       <h1>Awesome<br>Company</h1>
+
+      <div class="content">
+        <h2>Lorem Ipsum</h2>
+        <div class="quote">
+        <p><em>“Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit…”</em></p>
+        <p><em>“There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain…”</em></p>
+      </div>
+
+      <hr>
+        <div class="left-col">
+        <h3>What is Lorem Ipsum?</h3>
+        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's 
+          standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a 
+          type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining 
+          essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum 
+          passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</p>
+
+        <h3>Where does it come from?</h3>
+        <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature 
+          from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, 
+          looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the 
+          word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de 
+          Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the 
+          theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes 
+          from a line in section 1.10.32. The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. 
+          Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, 
+          accompanied by English versions from the 1914 translation by H. Rackham.</p>
+        </div>
+
+        <div class="right-col">
+          <h3>Why do we use it?</h3>
+          <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its 
+            layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to 
+            using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web 
+            page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web 
+            sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on 
+            purpose (injected humour and the like).</p>
+
+        <h3>Where can I get some?</h3>
+        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form,
+           by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage
+            of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem 
+            Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator 
+            on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures,
+             to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, 
+             injected humour, or non-characteristic words etc.</p>
+          </div>
+
+<form id="loremForm">
+  <label>
+    Amount:
+    <input type="number" id="amount" value="5" min="1" max="50">
+  </label><br><br>
+
+  <label><input type="radio" name="type" value="paragraphs" checked> paragraphs</label><br>
+  <label><input type="radio" name="type" value="words"> words</label><br>
+  <label><input type="radio" name="type" value="bytes"> bytes</label><br>
+  <label><input type="radio" name="type" value="lists"> lists</label><br><br>
+
+  <label>
+    <input type="checkbox" id="startWithLorem"> Start with 'Lorem ipsum'
+  </label><br><br>
+
+  <button type="submit">Generate Lorem Ipsum</button>
+</form>
+
+
+<div id="output"></div>
+
+      </div>
 
       <address>
         <p>The Awesome Company</p>
@@ -20,5 +106,40 @@
         UK</p>
       </address>
     </article>
+
+
+    <script type="module">
+      import { generateLoremIpsum } from "./js/main.js";
+
+      const form = document.getElementById("loremForm");
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const amount = parseInt(document.getElementById("amount").value, 10);
+        const type = document.querySelector("input[name='type']:checked").value;
+        const startWithLorem = document.getElementById("startWithLorem").checked;
+
+        const result = generateLoremIpsum({ type, amount, startWithLorem });
+
+        // Open popup window
+        const popup = window.open("", "LoremIpsum", "width=600,height=400,scrollbars=yes,resizable=yes");
+        popup.document.write(`
+          <html>
+            <head>
+              <title>Generated Lorem Ipsum</title>
+              <style>
+                body { font-family: sans-serif; padding: 20px; line-height: 1.6; }
+                pre { white-space: pre-wrap; word-wrap: break-word; }
+              </style>
+            </head>
+            <body>
+              <h2>Generated Lorem Ipsum</h2>
+              <pre>${result}</pre>
+            </body>
+          </html>
+        `);
+      });
+    </script>
   </body>
 </html>

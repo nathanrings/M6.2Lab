@@ -16,12 +16,22 @@ article {
   height: 297mm;
   margin: 20px auto;
   position: relative;
-}
+  background: 
+    linear-gradient(to bottom,
+      rgba(0,0,0,0.25) 0%,
+      rgba(0,0,0,0) 15%,
+      rgba(0,0,0,0) 85%,
+      rgba(0,0,0,0.25) 100%
+    ),
+    url("top-image.png") top center no-repeat,
+    url("bottom-image.png") bottom center no-repeat,
+    white;
 
-address {
-  position: absolute;
-  bottom: 8mm;
-  right: 20mm;
+  background-size: cover, contain, contain, auto;
+  background-attachment: scroll, scroll, scroll, scroll;
+
+  border-top: 1mm solid #004466;
+  border-bottom: 1mm solid #004466;
 }
 
 h1 {
@@ -36,27 +46,58 @@ h1 {
   padding: 44px 0;
   color: white;
   text-shadow: 1px 1px 1px black;
+
+  background: url("logo.png") center/cover no-repeat;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  border-radius: 50%;
 }
 
-/* Your CSS below here */
-article {
-  background: url("top-image.png") top center no-repeat white;
-
-  background: 
-    linear-gradient(to bottom,
-      rgba(0,0,0,0.25) 0%,
-      rgba(0,0,0,0) 20%,
-      rgba(0,0,0,0) 80%,
-      rgba(0,0,0,0.25) 100%
-    ),
-    url("top-image.png") top center no-repeat,
-    url("bottom-image.png") bottom center no-repeat,
-    white;
-
-  background-size: cover, contain, contain, auto;
-  background-attachment: fixed, fixed, fixed, scroll;
-
-  border-top: 1mm solid #004466;
-  border-bottom: 1mm solid #004466;
+address {
+  position: absolute;
+  bottom: 8mm;
+  right: 20mm;
 }
 
+.content {
+  position: absolute;
+  top: 60mm;     
+  bottom: 40mm;  
+  left: 20mm;
+  right: 20mm;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;  
+  column-gap: 20px;
+  overflow: hidden;
+}
+
+.content h2,
+.content .quote,
+.content hr {
+  grid-column: 1 / span 2;   
+  text-align: center;
+}
+
+
+.content .quote {
+  column-span: all;      
+  text-align: center;    
+  font-style: italic;
+  margin-bottom: 1em;
+  font-size: 9px;
+}
+
+.content hr {
+  column-span: all;      
+  border: none;
+  border-top: 1px solid #666;
+  margin: 1em 0 2em;     
+}
+
+h3 {
+  font-size: 12px;
+}
+
+p {
+  font-size: 10px
+}

@@ -62,3 +62,86 @@ export async function fetch5RandomJokes() {
         throw new Error(error.message);
     }
 }
+
+export function generateLoremIpsum({ type = "paragraphs", amount = 5, startWithLorem = false }) {
+    const loremWords = [
+        "lorem", "ipsum", "dolor", "sit", "amet", "consectetur",
+        "adipiscing", "elit", "sed", "do", "eiusmod", "tempor",
+        "incididunt", "ut", "labore", "et", "dolore", "magna", "aliqua"
+    ];
+
+    function randomWord() {
+        return loremWords[Math.floor(Math.random() * loremWords.length)];
+    }
+
+    function generateWords(n) {
+        let words = [];
+        for (let i = 0; i < n; i++) {
+            words.push(randomWord());
+        }
+        return words.join(" ");
+    }
+
+    let output = [];
+
+    switch (type) {
+        case "words": {
+            if (startWithLorem) {
+                if (amount <= 2) {
+                    output.push("Lorem ipsum".split(" ").slice(0, amount).join(" "));
+                } else {
+                    const rest = generateWords(amount - 2);
+                    output.push("Lorem ipsum " + rest);
+                }
+            } else {
+                output.push(generateWords(amount));
+            }
+            break;
+        }
+
+        case "bytes": {
+            let str = "";
+            if (startWithLorem) {
+                str = "Lorem ipsum dolor sit amet, ";
+            }
+            while (str.length < amount) {
+                str += generateWords(10) + " ";
+            }
+            output.push(str.substring(0, amount));
+            break;
+        }
+
+        case "lists": {
+            for (let i = 0; i < amount; i++) {
+                if (startWithLorem) {
+                    output.push(`• Lorem ipsum ${generateWords(6)}...`);
+                } else {
+                    output.push(`• ${generateWords(8)}...`);
+                }
+            }
+            break;
+        }
+
+        case "paragraphs":
+        default: {
+            for (let i = 0; i < amount; i++) {
+                if (startWithLorem && i === 0) {
+                    // First paragraph starts with fixed phrase, then random words to pad it out
+                    const rest = generateWords(45); // so ~50 words total
+                    output.push("Lorem ipsum dolor sit amet, " + rest);
+                } else {
+                    output.push(generateWords(50)); // ~50 random words
+                }
+            }
+            break;
+        }
+    }
+
+    return output.join("\n\n");
+}
+
+
+
+
+
+
