@@ -27,3 +27,7 @@ To run the tests for the project, run the following command:
 ```bash
 npm test
 ```
+
+## Running
+Use the live preview in codespaces to open index.html, after installing the live preview extension.
+The lorem ipsum generator will open a pop up window with the type of text requested.
